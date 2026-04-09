@@ -1,101 +1,72 @@
+/**
+ * ================================================================
+ * MAIN CLASS - TrainConsistManagementApp
+ * ================================================================
+ *
+ * Use Case 3: Track Unique Bogie IDs (Set – HashSet)
+ *
+ * Description:
+ * This use case introduces the Set interface and HashSet
+ * implementation to ensure that all bogie IDs in the train
+ * consist are unique.
+ *
+ * Problem in UC2:
+ * - List allows duplicate bogie IDs
+ * - Duplicate IDs can lead to incorrect train composition
+ *
+ * Solution in UC3:
+ * - Use HashSet to enforce uniqueness automatically
+ *
+ * At this stage, the application:
+ * - Creates a Set of bogie IDs
+ * - Attempts to add duplicate bogies
+ * - Demonstrates how duplicates are rejected
+ * - Displays the final unique bogie list
+ *
+ * Key Concept:
+ * - Set does NOT allow duplicates
+ * - HashSet provides fast insertion and lookup
+ *
+ * @author Developer
+ * @version 1.0
+ */
 
-abstract class Room {
-    private String type;
-    private int beds;
-    private double price;
+import java.util.HashSet;
+import java.util.Set;
 
-    public Room(String type, int beds, double price) {
-        this.type = type;
-        this.beds = beds;
-        this.price = price;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public int getBeds() {
-        return beds;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    // Abstract method
-    public abstract void displayDetails();
-}
-
-// Single Room Class
-class SingleRoom extends Room {
-
-    public SingleRoom() {
-        super("Single Room", 1, 100.0);
-    }
-
-    @Override
-    public void displayDetails() {
-        System.out.println(getType() + " | Beds: " + getBeds() + " | Price: $" + getPrice());
-    }
-}
-
-// Double Room Class
-class DoubleRoom extends Room {
-
-    public DoubleRoom() {
-        super("Double Room", 2, 180.0);
-    }
-
-    @Override
-    public void displayDetails() {
-        System.out.println(getType() + " | Beds: " + getBeds() + " | Price: $" + getPrice());
-    }
-}
-
-// Suite Room Class
-class SuiteRoom extends Room {
-
-    public SuiteRoom() {
-        super("Suite Room", 3, 300.0);
-    }
-
-    @Override
-    public void displayDetails() {
-        System.out.println(getType() + " | Beds: " + getBeds() + " | Price: $" + getPrice());
-    }
-}
-
-// Main Application Class
 public class TrainConsistManagementApp {
 
     public static void main(String[] args) {
 
         // Welcome Message
-        System.out.println("=== Book My Stay App ===");
+        System.out.println("=== Train Consist Management App ===");
 
-        // Create Room Objects (Polymorphism)
-        Room single = new SingleRoom();
-        Room doubleRoom = new DoubleRoom();
-        Room suite = new SuiteRoom();
+        // Initialize HashSet for unique bogie IDs
+        Set<String> bogieIds = new HashSet<>();
 
-        // Static availability (simple variables)
-        int singleAvailable = 5;
-        int doubleAvailable = 3;
-        int suiteAvailable = 2;
+        // Adding bogie IDs
+        System.out.println("\nAdding Bogie IDs...");
 
-        // Display Room Details and Availability
-        System.out.println("\nRoom Details & Availability:\n");
+        boolean added1 = bogieIds.add("BG101");
+        boolean added2 = bogieIds.add("BG102");
+        boolean added3 = bogieIds.add("BG103");
 
-        single.displayDetails();
-        System.out.println("Available: " + singleAvailable + "\n");
+        // Attempt to add duplicate
+        boolean addedDuplicate = bogieIds.add("BG101");
 
-        doubleRoom.displayDetails();
-        System.out.println("Available: " + doubleAvailable + "\n");
+        // Display results
+        System.out.println("BG101 added: " + added1);
+        System.out.println("BG102 added: " + added2);
+        System.out.println("BG103 added: " + added3);
+        System.out.println("BG101 added again (duplicate): " + addedDuplicate);
 
-        suite.displayDetails();
-        System.out.println("Available: " + suiteAvailable + "\n");
+        // Final Set contents
+        System.out.println("\nUnique Bogie IDs in Train:");
+        for (String id : bogieIds) {
+            System.out.println(id);
+        }
 
-        // Application ends
-        System.out.println("=== Application Terminated ===");
+        // Display total count
+        System.out.println("\nTotal Unique Bogies: " + bogieIds.size());
     }
 }
