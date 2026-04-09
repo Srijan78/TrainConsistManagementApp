@@ -3,36 +3,35 @@
  * MAIN CLASS - TrainConsistManagementApp
  * ================================================================
  *
- * Use Case 7: Sort Bogies by Capacity (Comparator)
+ * Use Case 8: Filter Passenger Bogies Using Streams
  *
  * Description:
- * This use case introduces custom sorting using Comparator.
+ * This use case introduces the Java Stream API to filter
+ * bogies based on business rules (capacity).
  *
- * Problem in UC6:
- * - Bogie data is stored but not ordered
- * - No way to rank or compare capacities
+ * Problem in UC7:
+ * - Sorting is possible, but filtering requires verbose loops
  *
- * Solution in UC7:
- * - Create Bogie objects
- * - Store them in a List
- * - Use Comparator to sort by capacity
+ * Solution in UC8:
+ * - Use Stream API for declarative filtering
  *
  * At this stage, the application:
- * - Creates passenger bogie objects
- * - Stores them in a List
- * - Sorts them using Comparator (Lambda)
- * - Displays sorted bogies
+ * - Reuses Bogie objects
+ * - Converts List to Stream
+ * - Applies filter condition (capacity > 60)
+ * - Collects filtered results into a new list
+ * - Displays filtered bogies
  *
  * Key Concept:
- * - Comparator enables custom business-based sorting
+ * - Streams enable clean, readable, functional-style operations
  *
  * @author Developer
  * @version 1.0
  */
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 // Bogie Class
 class Bogie {
@@ -65,26 +64,27 @@ public class TrainConsistManagementApp {
         // Welcome Message
         System.out.println("=== Train Consist Management App ===");
 
-        // Create List of bogies
+        // Create List of bogies (reuse from UC7)
         List<Bogie> bogies = new ArrayList<>();
-
-        // Add passenger bogies
         bogies.add(new Bogie("Sleeper", 72));
         bogies.add(new Bogie("AC Chair", 56));
         bogies.add(new Bogie("First Class", 24));
+        bogies.add(new Bogie("AC 3 Tier", 64));
 
-        // Display before sorting
-        System.out.println("\nBefore Sorting:");
+        // Display all bogies
+        System.out.println("\nAll Bogies:");
         for (Bogie b : bogies) {
             b.display();
         }
 
-        // Sort bogies by capacity (ascending)
-        bogies.sort(Comparator.comparingInt(Bogie::getCapacity));
+        // Filter bogies with capacity > 60 using Stream API
+        List<Bogie> filteredBogies = bogies.stream()
+                .filter(b -> b.getCapacity() > 60)
+                .collect(Collectors.toList());
 
-        // Display after sorting
-        System.out.println("\nAfter Sorting (by Capacity):");
-        for (Bogie b : bogies) {
+        // Display filtered bogies
+        System.out.println("\nFiltered Bogies (Capacity > 60):");
+        for (Bogie b : filteredBogies) {
             b.display();
         }
 
